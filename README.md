@@ -4,6 +4,8 @@ A next-generation Generative UI platform that converts natural language prompts 
 
 **Tagline:** "Describe your app. We generate it."
 
+**🚀 Live Demo:** [https://promptcraft-ai-eight.vercel.app](https://promptcraft-ai-eight.vercel.app)
+
 ## Features
 
 ✨ **Instant Generation** - Type a prompt and watch your UI come to life  
