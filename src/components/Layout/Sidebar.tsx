@@ -1,20 +1,21 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { Sparkles, Layout, Settings, Folder, History, LucideIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/utils';
 
 interface SidebarItemProps {
     icon: LucideIcon;
     label: string;
+    to: string;
     isActive?: boolean;
-    onClick?: () => void;
     collapsed?: boolean;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, label, isActive, onClick, collapsed }) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, label, to, isActive, collapsed }) => {
     return (
-        <button
-            onClick={onClick}
+        <Link
+            to={to}
             className={cn(
                 "w-full flex items-center gap-3 px-2 py-1.5 rounded-md transition-all duration-200 group text-sm relative mb-0.5",
                 isActive
@@ -28,7 +29,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ icon: Icon, label, isActive, 
             {isActive && !collapsed && (
                 <motion.div layoutId="active-pill" className="absolute left-0 w-0.5 h-3 bg-[#6366f1] rounded-r-full" />
             )}
-        </button>
+        </Link>
     );
 };
 
@@ -36,19 +37,19 @@ export const Sidebar: React.FC<{
     className?: string;
     collapsed?: boolean;
     onToggleCollapse?: () => void;
-    onHistoryClick?: () => void;
-    onSettingsClick?: () => void;
-    onTemplatesClick?: () => void;
-    activePage?: 'studio' | 'templates' | 'history' | 'settings' | 'none';
 }> = ({
     className = '',
     collapsed = false,
-    onToggleCollapse,
-    onHistoryClick,
-    onSettingsClick,
-    onTemplatesClick,
-    activePage = 'studio'
+    onToggleCollapse
 }) => {
+        const location = useLocation();
+        const currentPath = location.pathname;
+
+        const isActive = (path: string) => {
+            if (path === '/studio' && currentPath === '/') return true;
+            return currentPath.startsWith(path);
+        };
+
         return (
             <motion.div
                 initial={false}
@@ -101,15 +102,16 @@ export const Sidebar: React.FC<{
                         <SidebarItem
                             icon={Layout}
                             label="Studio"
-                            isActive={activePage === 'studio'}
+                            to="/studio"
+                            isActive={isActive('/studio') || currentPath === '/'}
                             collapsed={collapsed}
                         />
                         <SidebarItem
                             icon={Folder}
                             label="Templates"
-                            isActive={activePage === 'templates'}
+                            to="/templates"
+                            isActive={isActive('/templates')}
                             collapsed={collapsed}
-                            onClick={onTemplatesClick}
                         />
                     </div>
 
@@ -126,16 +128,16 @@ export const Sidebar: React.FC<{
                         <SidebarItem
                             icon={History}
                             label="History"
-                            isActive={activePage === 'history'}
+                            to="/history"
+                            isActive={isActive('/history')}
                             collapsed={collapsed}
-                            onClick={onHistoryClick}
                         />
                         <SidebarItem
                             icon={Settings}
                             label="Settings"
-                            isActive={activePage === 'settings'}
+                            to="/settings"
+                            isActive={isActive('/settings')}
                             collapsed={collapsed}
-                            onClick={onSettingsClick}
                         />
                     </div>
                 </div>
@@ -160,3 +162,4 @@ export const Sidebar: React.FC<{
             </motion.div>
         );
     };
+

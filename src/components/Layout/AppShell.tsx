@@ -1,19 +1,20 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { cn } from '@/utils';
 
 interface AppShellProps {
-    children: React.ReactNode;
     sidebar?: React.ReactNode;
     topbar?: React.ReactNode;
     rightPanel?: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
 }
 
 export const AppShell: React.FC<AppShellProps> = ({
-    children,
     sidebar,
     topbar,
     rightPanel,
+    children,
     className
 }) => {
     return (
@@ -37,21 +38,23 @@ export const AppShell: React.FC<AppShellProps> = ({
                     </div>
                 )}
 
-                {/* Content Canvas */}
-                <main className={cn(
-                    "flex-1 overflow-hidden relative",
-                    className
-                )}>
-                    {children}
-                </main>
-            </div>
+                <div className="flex-1 flex overflow-hidden relative">
+                    {/* Content Canvas */}
+                    <main className={cn(
+                        "flex-1 relative overflow-auto",
+                        className
+                    )}>
+                        {children || <Outlet />}
+                    </main>
 
-            {/* Right Panel */}
-            {rightPanel && (
-                <div className="flex-shrink-0 w-80 border-l border-white/[0.04] bg-[#0b0e14] z-20 overflow-hidden">
-                    {rightPanel}
+                    {/* Right Panel */}
+                    {rightPanel && (
+                        <div className="flex-shrink-0 border-l border-white/[0.04] bg-[#0b0e14] z-20 w-80">
+                            {rightPanel}
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
         </div>
     );
 };

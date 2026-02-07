@@ -43,4 +43,25 @@
     .custom-scrollbar::-webkit-scrollbar-thumb {
         @apply bg-slate-800/50 rounded-full hover:bg-slate-700/50 transition-colors;
     }
+
+    .glass {
+        @apply bg-white/5 backdrop-blur-lg border border-white/10;
+    }
+
+    .glass-strong {
+        @apply bg-slate-900/80 backdrop-blur-xl border-b border-white/5;
+    }
+
+    .gradient-primary {
+        @apply bg-gradient-to-r from-indigo-600 to-purple-600;
+    }
+
+    .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400;
+    }
+
+    .gradient-bg {
+        background-image: radial-gradient(ellipse at top, var(--tw-gradient-stops));
+        @apply from-slate-900 via-slate-950 to-black;
+    }
 }

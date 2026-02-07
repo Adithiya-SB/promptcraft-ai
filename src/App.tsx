@@ -5,6 +5,9 @@ import { Studio } from './pages/Studio';
 import { TemplatesPage } from './pages/TemplatesPage';
 import { AboutPage } from './pages/AboutPage';
 import { ManualPage } from './pages/ManualPage';
+import { Layout } from './components/Layout/Layout';
+import { HistoryPage } from './pages/HistoryPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { useAppStore } from './store';
 
 function App() {
@@ -22,8 +25,16 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<LandingPage />} />
+
                 <Route path="/studio" element={<Studio />} />
-                <Route path="/templates" element={<TemplatesPage />} />
+
+                {/* Authenticated/App Routes */}
+                <Route element={<Layout />}>
+                    <Route path="/templates" element={<TemplatesPage />} />
+                    <Route path="/history" element={<HistoryPage />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                </Route>
+
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/manual" element={<ManualPage />} />
             </Routes>
