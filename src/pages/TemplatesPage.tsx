@@ -9,10 +9,17 @@ export const TemplatesPage: React.FC = () => {
     const navigate = useNavigate();
     const { setCurrentSchema, setCurrentPrompt } = useAppStore();
 
-    const handleTemplateClick = (template: typeof templates[0]) => {
+    const handleTemplateClick = (e: React.MouseEvent, template: typeof templates[0]) => {
+        e.preventDefault();
+        e.stopPropagation();
+
         setCurrentSchema(template.schema);
         setCurrentPrompt(template.description);
-        navigate('/studio');
+
+        // Small delay to ensure state updates propagate before navigation
+        setTimeout(() => {
+            navigate('/studio');
+        }, 10);
     };
 
     const categories = Array.from(new Set(templates.map(t => t.category)));
@@ -53,7 +60,7 @@ export const TemplatesPage: React.FC = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: catIdx * 0.1 + idx * 0.05 }}
                                     whileHover={{ y: -5 }}
-                                    onClick={() => handleTemplateClick(template)}
+                                    onClick={(e) => handleTemplateClick(e, template)}
                                     className="group relative bg-[#0b0e14] border border-white/[0.06] hover:border-indigo-500/30 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/10"
                                 >
                                     {/* Preview Area */}
@@ -71,7 +78,7 @@ export const TemplatesPage: React.FC = () => {
                                         <p className="text-xs text-slate-500 line-clamp-2 mb-4 leading-relaxed">
                                             {template.description}
                                         </p>
-                                        <button className="w-full py-1.5 rounded bg-indigo-500/10 text-indigo-400 text-xs font-medium border border-indigo-500/20 group-hover:bg-indigo-500 group-hover:text-white transition-all">
+                                        <button className="w-full py-1.5 rounded bg-indigo-500/10 text-indigo-400 text-xs font-medium border border-indigo-500/20 group-hover:bg-indigo-500 group-hover:text-white transition-all pointer-events-none">
                                             Use Template
                                         </button>
                                     </div>
